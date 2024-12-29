@@ -1,0 +1,32 @@
+name: Playwright Script
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때 실행
+  workflow_dispatch:  # 수동으로 실행할 수 있도록 허용
+
+jobs:
+  run-playwright:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 코드 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Node.js 설치
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 3. Playwright 및 기타 종속성 설치
+      - name: Install dependencies
+        run: |
+          npm install playwright
+          npx playwright install
+
+      # 4. Playwright 스크립트 실행
+      - name: Run Playwright Script
+        run: node playwright-script.js
